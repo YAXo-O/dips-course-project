@@ -1,0 +1,68 @@
+<b-container>
+  <b-row>
+    <b-col class="panel" cols="5">
+      <H4 class="text-left">Состояние</H4>
+      <hr/>
+      <Element v-on:update:value="valueChanged"  v-for="item in elements"
+               v-bind:key="item.Name + '-' + item.Nature + '-' + item.Value"
+               :name="item.Name" :nature="item.Nature" :value="item.Value">
+      </Element>
+    </b-col>
+    <b-col></b-col>
+    <b-col cols="5">
+      <div class="panel">
+        <H4 class="text-left">Выполнение</H4>
+        <hr/>
+        <b-col cols="12">
+          <b-button variant="outline-dark" @click="this.step">Шаг</b-button>
+          <b-button variant="outline-dark" @click="this.delayed">С задержкой</b-button>
+          <b-button variant="outline-dark" @click="this.simultaneous">Полностью</b-button>
+        </b-col>
+        <b-col class="clearfix" style="margin-top: 15px;">
+          <label class="col-form-label" >Задержка: </label>
+          <b-form-input style="display: inline; width: 75px; margin-left: 15px;" type="number" v-model="delay">
+          </b-form-input>
+        </b-col>
+
+      </div>
+      <div class="panel" style="margin-top: 15px;">
+        <H4 class="text-left">Управление Состоянием</H4>
+        <hr/>
+        <b-button variant="outline-dark" @click="this.retrieveState">Получить</b-button>
+        <b-button variant="outline-dark" @click="this.setState">Задать</b-button>
+      </div>
+      <b-form-textarea class="panel-textarea" v-model="code"></b-form-textarea>
+    </b-col>
+  </b-row>
+  <b-modal ref="stats-modal" centered size="xl" title="Статистика">
+    <b-container fluid>
+      <b-row>
+        <b-col cols="3" class="panel">
+          <H4 class="text-left">Используемые команды</H4>
+          <hr/>
+          <div v-for="item in usagesCommands" v-bind:key="item.Name + '-' + item.Nature + '-' + item.Value">
+            {{item.Name}}: {{item.Value}}
+          </div>
+        </b-col>
+        <b-col></b-col>
+        <b-col cols="3" class="panel">
+          <H4 class="text-left">Используемые элементы</H4>
+          <hr/>
+          <div v-for="item in usagesElements" v-bind:key="item.Name + '-' + item.Nature + '-' + item.Value">
+            {{item.Name}}: {{item.Value}}
+          </div>
+        </b-col>
+        <b-col></b-col>
+        <b-col cols="3" class="panel">
+          <H4 class="text-left">Повторяющиеся команды</H4>
+          <hr/>
+          <div v-for="item in patterns" class="panel" style="margin: 5px;">
+            <div v-for="line in item.Pattern">{{line}}</div>
+            (x{{item.Count}})
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
+  </b-modal>
+</b-container>
+
